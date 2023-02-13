@@ -1,5 +1,12 @@
 import express from 'express'
+import fs from 'fs'
 import filesRouter from './routes/files.js'
+
+const publicDir = 'public/uploads'
+
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true })
+}
 
 const app = express()
 
