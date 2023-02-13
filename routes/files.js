@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { uploadFile } from '../controllers/files.js'
+import { deleteFile, uploadFile } from '../controllers/files.js'
 
 const router = Router()
 
-router.post('/upload', uploadFile)
+router.post('/file', uploadFile)
+router.delete('/file', deleteFile)
 
 export default router
