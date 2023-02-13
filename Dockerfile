@@ -1,6 +1,9 @@
-FROM node:alpine
-WORKDIR /app
-COPY package.json .
-RUN npm i --prod
+FROM node:lts-alpine
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --production
 COPY . .
-ENTRYPOINT ["npm" , "start"]
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE $PORT
+CMD [ "yarn", "start" ]
