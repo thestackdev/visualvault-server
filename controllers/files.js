@@ -6,6 +6,29 @@ import clientPromise from '../lib/mongodb.js'
 const client = await clientPromise
 const filesCollection = client.db('files').collection('files')
 
+export async function getFiles(req, res) {
+  const page = parseInt(req.query.page) || 1
+  const pageSize = parseInt(req.query.pageSize) || 10
+  const offset = (page - 1) * pageSize
+
+  const totalItems = await filesCollection.countDocuments()
+  const totalPages = Math.ceil(totalItems / pageSize)
+
+  const results = await filesCollection
+    .find()
+    .skip(offset)
+    .limit(pageSize)
+    .toArray()
+
+  return res.json({
+    results,
+    page,
+    pageSize,
+    totalItems,
+    totalPages,
+  })
+}
+
 export async function uploadFile(req, res) {
   upload.single('image')(req, res, async (err) => {
     if (err) {
