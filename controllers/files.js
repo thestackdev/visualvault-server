@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { ObjectId } from 'mongodb'
+
 import { upload } from '../helpers/multer.js'
 import clientPromise from '../lib/mongodb.js'
 
@@ -15,7 +16,7 @@ export async function getFiles(req, res) {
   const totalPages = Math.ceil(totalItems / pageSize)
 
   const results = await filesCollection
-    .find()
+    .find({ createdBy: req.token.sub })
     .skip(offset)
     .limit(pageSize)
     .toArray()
@@ -43,6 +44,7 @@ export async function uploadFile(req, res) {
       path: req.file.path,
       contentType: req.file.mimetype,
       size: req.file.size,
+      createdBy: req.token.sub,
     })
 
     return res.send({
@@ -59,6 +61,7 @@ export async function deleteFile(req, res) {
 
   const response = await filesCollection.findOneAndDelete({
     _id: new ObjectId(req.query.id),
+    createdBy: req.token.sub,
   })
 
   fs.unlink(response.value.path, (err) => {
