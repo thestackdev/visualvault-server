@@ -1,0 +1,15 @@
+services:
+  visualvault-server:
+    image: fullstacklab/visualvault-server
+    container_name: fullstacklab
+    restart: unless-stopped
+    network_mode: traefik
+    env_file:
+      - .env
+    expose:
+      - 3000
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.visualvault-server.rule=Host(`visualvault-server.fullstacklab.org`)'
+      - 'traefik.http.routers.visualvault-server.entrypoints=https'
+      - 'traefik.http.routers.visualvault-server.tls.certresolver=letsencrypt'
