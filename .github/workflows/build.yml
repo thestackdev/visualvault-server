@@ -37,5 +37,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: thestackdev/visualvault-server:latest
+          tags: ghcr.io/thestackdev/visualvault-server:latest
           platforms: linux/amd64,linux/arm64
