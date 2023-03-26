@@ -37,5 +37,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: fullstacklab/visualvault-server:latest
+          tags: thestackdev/visualvault-server:latest
           platforms: linux/amd64,linux/arm64
